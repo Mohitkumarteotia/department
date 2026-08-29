@@ -47,7 +47,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public DepartmentResponse updateDepartment(Long id, DepartmentRequest request) {
-        Department department = departmentRepository.findById(id)
+        Department department = departmentRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new RuntimeException("Department not found"));
         department.setDepartmentCode(request.getDepartmentCode());
         department.setDepartmentName(request.getDepartmentName());
@@ -59,7 +59,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void deleteDepartment(Long id) {
-        Department department = departmentRepository.findById(id)
+        Department department = departmentRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new RuntimeException("Department not found"));
         departmentRepository.delete(department);
     }
