@@ -20,7 +20,8 @@ public class DepartmentController {
 
     @PostMapping
     public ResponseEntity<DepartmentResponse> createDepartment(@Valid @RequestBody DepartmentRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(departmentService.createDepartment(request));
+        DepartmentResponse departmentResponse = departmentService.createDepartment(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(departmentResponse);
     }
 
     @GetMapping("/{id}")
@@ -43,5 +44,5 @@ public class DepartmentController {
         departmentService.deleteDepartment(id);
         return ResponseEntity.noContent().build();
     }
-    
+
 }
