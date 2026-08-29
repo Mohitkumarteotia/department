@@ -26,7 +26,8 @@ public class DepartmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DepartmentResponse> getDepartmentById(@PathVariable Long id) {
-        return ResponseEntity.ok(departmentService.getDepartmentById(id));
+        DepartmentResponse departmentById = departmentService.getDepartmentById(id);
+        return ResponseEntity.ok(departmentById);
     }
 
     @GetMapping
