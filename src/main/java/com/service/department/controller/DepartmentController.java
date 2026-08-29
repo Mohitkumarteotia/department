@@ -32,12 +32,14 @@ public class DepartmentController {
 
     @GetMapping
     public ResponseEntity<List<DepartmentResponse>> getAllDepartments() {
-        return ResponseEntity.ok(departmentService.getAllDepartments());
+        List<DepartmentResponse> departments = departmentService.getAllDepartments();
+        return ResponseEntity.ok(departments);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DepartmentResponse> updateDepartment(@PathVariable Long id, @Valid @RequestBody DepartmentRequest request) {
-        return ResponseEntity.ok(departmentService.updateDepartment(id, request));
+        DepartmentResponse departmentResponse = departmentService.updateDepartment(id, request);
+        return ResponseEntity.ok(departmentResponse);
     }
 
     @DeleteMapping("/{id}")
