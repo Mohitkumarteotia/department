@@ -7,6 +7,7 @@ import com.service.department.repository.DepartmentRepository;
 import com.service.department.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public DepartmentResponse getDepartmentById(Long id) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Department not found"));
@@ -37,11 +39,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DepartmentResponse> getAllDepartments() {
         return departmentRepository.findAll().stream().map(this::mapToResponse).toList();
     }
 
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public DepartmentResponse updateDepartment(Long id, DepartmentRequest request) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Department not found"));
@@ -53,8 +57,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void deleteDepartment(Long id) {
-        Department department = departmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Department not found"));
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Department not found"));
         departmentRepository.delete(department);
     }
 
