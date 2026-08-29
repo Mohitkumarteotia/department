@@ -21,6 +21,6 @@ public class Department {
     @Column(name = "department_name", nullable = false)
     private String departmentName;
 
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false)
     private String description;
 }
