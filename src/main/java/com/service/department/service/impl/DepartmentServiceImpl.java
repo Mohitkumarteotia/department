@@ -1,6 +1,7 @@
 package com.service.department.service.impl;
 
 import com.service.department.entity.Department;
+import com.service.department.exception.custom.DepartmentNotFoundException;
 import com.service.department.pojos.request.DepartmentRequest;
 import com.service.department.pojos.response.DepartmentResponse;
 import com.service.department.repository.DepartmentRepository;
@@ -33,7 +34,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional(readOnly = true)
     public DepartmentResponse getDepartmentById(Long id) {
         Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Department not found"));
+                .orElseThrow(() -> new DepartmentNotFoundException("Department not found"));
         return mapToResponse(department);
     }
 
@@ -47,7 +48,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     public DepartmentResponse updateDepartment(Long id, DepartmentRequest request) {
         Department department = departmentRepository.findByIdForUpdate(id)
-                .orElseThrow(() -> new RuntimeException("Department not found"));
+                .orElseThrow(() -> new DepartmentNotFoundException("Department not found"));
         department.setDepartmentCode(request.getDepartmentCode());
         department.setDepartmentName(request.getDepartmentName());
         department.setDescription(request.getDescription());
@@ -59,7 +60,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     public void deleteDepartment(Long id) {
         Department department = departmentRepository.findByIdForUpdate(id)
-                .orElseThrow(() -> new RuntimeException("Department not found"));
+                .orElseThrow(() -> new DepartmentNotFoundException("Department not found"));
         departmentRepository.delete(department);
     }
 
