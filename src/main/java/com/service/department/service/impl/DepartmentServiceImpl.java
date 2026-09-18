@@ -67,9 +67,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public void deleteDepartment(Long id) {
-        Department department = departmentRepository.findByIdForUpdate(id)
-                .orElseThrow(() -> new DepartmentNotFoundException("Department not found"));
-        departmentRepository.delete(department);
+        Department departmentById = findDepartmentById(id);
+        departmentRepository.delete(departmentById);
     }
 
     private DepartmentResponse mapToResponse(Department department) {
