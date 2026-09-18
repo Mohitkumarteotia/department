@@ -20,26 +20,26 @@ public class DepartmentController {
 
     @PostMapping
     public ResponseEntity<DepartmentResponse> createDepartment(@Valid @RequestBody DepartmentRequest request) {
-        DepartmentResponse departmentResponse = departmentService.createDepartment(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(departmentResponse);
+        DepartmentResponse createDepartmentResponse = departmentService.createDepartment(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createDepartmentResponse);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DepartmentResponse> getDepartmentById(@PathVariable Long id) {
         DepartmentResponse departmentById = departmentService.getDepartmentById(id);
-        return ResponseEntity.ok(departmentById);
+        return ResponseEntity.status(HttpStatus.OK).body(departmentById);
     }
 
     @GetMapping
     public ResponseEntity<List<DepartmentResponse>> getAllDepartments() {
         List<DepartmentResponse> departments = departmentService.getAllDepartments();
-        return ResponseEntity.ok(departments);
+        return ResponseEntity.status(HttpStatus.OK).body(departments);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DepartmentResponse> updateDepartment(@PathVariable Long id, @Valid @RequestBody DepartmentRequest request) {
-        DepartmentResponse departmentResponse = departmentService.updateDepartment(id, request);
-        return ResponseEntity.ok(departmentResponse);
+        DepartmentResponse updateDepartmentResponse = departmentService.updateDepartment(id, request);
+        return ResponseEntity.status(HttpStatus.OK).body(updateDepartmentResponse);
     }
 
     @DeleteMapping("/{id}")
