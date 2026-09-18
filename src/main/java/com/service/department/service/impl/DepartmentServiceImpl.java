@@ -37,9 +37,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional(readOnly = true)
     public DepartmentResponse getDepartmentById(Long id) {
-        Department department = departmentRepository.findById(id)
+        Department departmentById = findDepartmentById(id);
+        return mapToResponse(departmentById);
+    }
+
+    private Department findDepartmentById(Long id) {
+        return departmentRepository.findById(id)
                 .orElseThrow(() -> new DepartmentNotFoundException("Department not found"));
-        return mapToResponse(department);
     }
 
     @Override
