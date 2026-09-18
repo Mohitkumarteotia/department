@@ -21,11 +21,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public DepartmentResponse createDepartment(DepartmentRequest request) {
-        Department department = createAndSaveDept(request);
+        Department department = buildDepartment(request);
         return mapToResponse(department);
     }
 
-    private Department createAndSaveDept(DepartmentRequest request) {
+    private Department buildDepartment(DepartmentRequest request) {
         Department department = Department.builder()
                 .departmentCode(request.getDepartmentCode())
                 .departmentName(request.getDepartmentName())
@@ -55,17 +55,21 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public DepartmentResponse updateDepartment(Long id, DepartmentRequest request) {
-        Department department = updateAndSaveDept(id, request);
+        Department department = updateDepartmentEntity(id, request);
         return mapToResponse(department);
     }
 
-    private Department updateAndSaveDept(Long id, DepartmentRequest request) {
-        Department department = departmentRepository.findByIdForUpdate(id)
-                .orElseThrow(() -> new DepartmentNotFoundException("Department not found"));
+    private Department updateDepartmentEntity(Long id, DepartmentRequest request) {
+        Department department = findDepartmentByIdForUpdate(id);
         department.setDepartmentCode(request.getDepartmentCode());
         department.setDepartmentName(request.getDepartmentName());
         department.setDescription(request.getDescription());
         return departmentRepository.save(department);
+    }
+
+    private Department findDepartmentByIdForUpdate(Long id) {
+        return departmentRepository.findByIdForUpdate(id)
+                .orElseThrow(() -> new DepartmentNotFoundException("Department not found with id: " + id));
     }
 
     @Override
