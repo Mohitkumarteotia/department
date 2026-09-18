@@ -55,13 +55,17 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public DepartmentResponse updateDepartment(Long id, DepartmentRequest request) {
+        Department department = updateAndSaveDept(id, request);
+        return mapToResponse(department);
+    }
+
+    private Department updateAndSaveDept(Long id, DepartmentRequest request) {
         Department department = departmentRepository.findByIdForUpdate(id)
                 .orElseThrow(() -> new DepartmentNotFoundException("Department not found"));
         department.setDepartmentCode(request.getDepartmentCode());
         department.setDepartmentName(request.getDepartmentName());
         department.setDescription(request.getDescription());
-        Department updatedDepartment = departmentRepository.save(department);
-        return mapToResponse(updatedDepartment);
+        return departmentRepository.save(department);
     }
 
     @Override
