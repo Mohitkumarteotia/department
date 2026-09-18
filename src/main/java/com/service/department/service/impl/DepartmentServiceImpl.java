@@ -21,11 +21,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public DepartmentResponse createDepartment(DepartmentRequest request) {
-        Department department = saveDeptToDB(request);
+        Department department = createAndSaveDept(request);
         return mapToResponse(department);
     }
 
-    private Department saveDeptToDB(DepartmentRequest request) {
+    private Department createAndSaveDept(DepartmentRequest request) {
         Department department = Department.builder()
                 .departmentCode(request.getDepartmentCode())
                 .departmentName(request.getDepartmentName())
